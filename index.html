@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grants Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Grants Portal</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="openTab('grant-call')">Grant Call</a></li>
+                <li><a href="#" onclick="openTab('reimbursement-claim')">Reimbursement Claim</a></li>
+                <li><a href="#" onclick="openTab('mid-year-revision')">Mid-Year Revision</a></li>
+                <li><a href="#" onclick="openTab('request-received')">Request Received</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div id="grant-call" class="tab-content">
+            <h2>Grant Call</h2>
+            <p>Welcome to the Grant Call page!</p>
+        </div>
+        
+        <div id="reimbursement-claim" class="tab-content" style="display:none;">
+            <div class="split-container">
+                <div class="left-content">
+                    <!-- Left content area with 250px width -->
+                    <h2>Left Content Area</h2>
+                    <p>Content here...</p>
+                </div>
+                <div class="right-content">
+                    <!-- Right content area with the remaining width available -->
+                    <h2>Reimbursement Claim</h2>
+                    <p>Submit your reimbursement claims here.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mid-year-revision" class="tab-content" style="display:none;">
+            <h2>Mid-Year Revision</h2>
+            <p>Review and revise your grant applications.</p>
+        </div>
+
+        <div id="request-received" class="tab-content" style="display:none;">
+            <h2>Request Received</h2>
+            <p>View requests received.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 XXX Grants Portal. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
