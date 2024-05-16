@@ -4,22 +4,19 @@ body {
     flex-direction: column;
     min-height: 100vh; /* Ensure the body takes up at least the full height of the viewport */
 
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background-color: #ffffff;
-    box-shadow: 0 0 30px #b9b9b9;
+    box-shadow: 0 0 50px #e9ecea;
     max-width: 1080px; /* Ensure the container doesn't exceed 1080px */
     margin: 0 auto; /* Center the container horizontally */
-    padding: 0 20px; /* Add spacing of 20px on the sides */
+    
 }
 
-
-
-
-
 header {
-    background-color: #ddd;
+    background-color: #ffffff;
     color: #333;
-    padding: 10px 0;
+    font-size: 14px;
+    padding: 60px 0 30px 0;
     position: fixed;
     top: 0;
     width: 1080px;
@@ -27,7 +24,7 @@ header {
 }
 
 .header-container {
-    text-align: center;
+    text-align: left;
 }
 
 nav ul {
@@ -39,12 +36,16 @@ nav ul {
 
 nav ul li {
     display: inline;
-    margin-right: 20px;
+    margin-right: 40px;
 }
 
 nav ul li a {
     color: #333;
+    font-weight: bold;
     text-decoration: none;
+}
+nav ul li a:hover {
+    color: rgb(5, 99, 206); /* color on hover */
 }
 
 footer {
@@ -66,7 +67,7 @@ footer {
 }
 
 .tab-content {
-    padding: 20px;
+    padding: 0px;
     text-align: center;
     background-color: #fff;
     margin-top: 20px;
@@ -82,18 +83,18 @@ footer {
 }
 
 .left-content {
-    width: 250px;
-    background-color: #f0f0f0;
+    width: 500x;
+    background-color: #cb0808;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    box-shadow: 0 0 5px rgba(97, 11, 236, 0.1);
 }
 
 .right-content {
     flex-grow: 1;
     padding: 20px;
-    margin-left: 20px;
-    background-color: #fff;
+    margin-left: 5px;
+    background-color: #d30808;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
