@@ -16,13 +16,20 @@ header {
     background-color: #ffffff;
     color: #333;
     font-size: 14px;
-    padding: 60px 0 30px 0;
+    padding: 20px 0 30px 0;
     position: fixed;
     top: 0;
     width: 1080px;
     z-index: 9999;
 }
-
+.logo {
+    width:120px;
+    height: 120px;
+}
+.logo-container {
+    padding: 0px 0 20px 0;
+    text-align: center;
+}
 .header-container {
     text-align: left;
 }
@@ -70,7 +77,7 @@ footer {
     padding: 0px;
     text-align: center;
     background-color: #fff;
-    margin-top: 20px;
+    margin-top:120px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     min-height: 800px;  /* Add spacing to extend the content place */
