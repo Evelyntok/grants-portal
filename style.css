@@ -15,16 +15,16 @@ body {
 header {
     background-color: #ffffff;
     color: #333;
-    font-size: 14px;
-    padding: 20px 0 30px 0;
+    font-size: 16px;
+    padding: 20px 0 20px 0;
     position: fixed;
     top: 0;
     width: 1080px;
     z-index: 9999;
 }
 .logo {
-    width:120px;
-    height: 120px;
+    width:auto;
+    height: 90px;
 }
 .logo-container {
     padding: 0px 0 20px 0;
@@ -52,11 +52,11 @@ nav ul li a {
     text-decoration: none;
 }
 nav ul li a:hover {
-    color: rgb(5, 99, 206); /* color on hover */
+    color: rgb(113, 2, 2);
 }
 
 footer {
-    background-color: #333;
+    background-color: rgb(94, 93, 93);
     color: #fff;
     padding: 10px 0;
     position: fixed;
@@ -67,7 +67,7 @@ footer {
 }
 
 .content {
-    padding-top: 90px;
+    padding-top: 40px;
     padding-bottom: 40px;
     
     
@@ -82,7 +82,7 @@ footer {
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     min-height: 800px;  /* Add spacing to extend the content place */
     flex-grow: 1;
-    background-color: aqua;
+    background-color: rgba(204, 255, 0, 0.321);
 }
 
 .split-container {

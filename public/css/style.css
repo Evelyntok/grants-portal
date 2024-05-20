@@ -1,37 +1,146 @@
-.welcome-container {
+/*
+npm install pg express ejs dotenv
+node server.js
+
+*/
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes up at least the full height of the viewport */
+
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffffff;
+    box-shadow: 0 0 50px #e9ecea;
+    max-width: 1280px; /* Ensure the container doesn't exceed 1080px */
+    margin: 0 auto; /* Center the container horizontally */
+    
+}
+
+header {
+    background-color: #ffffff;
+    color: #333;
+    font-size: 16px;
+    padding: 20px 0 20px 0;
+    position: fixed;
+    top: 0;
+    width: 1080px;
+    z-index: 9999;
+}
+.logo {
+    width:auto;
+    height: 90px;
+}
+.logo-container {
+    padding: 0px 0 20px 0;
     text-align: center;
-
-    margin-top: 50px;
-    margin-bottom: 50px;
+}
+.header-container {
+    text-align: left;
 }
 
-.new-post-btn-container{
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
     text-align: center;
-
-    margin-top: 50px;
-    margin-bottom: 50px;
 }
 
-.post-container {
-    max-width: 800px;
-
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
+nav ul li {
+    display: inline;
+    margin-right: 40px;
 }
 
-.about-container {
+nav ul li a {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+}
+nav ul li a:hover {
+    color: rgb(113, 2, 2);
+}
+
+footer {
+    background-color: rgb(94, 93, 93);
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 1080px;
     text-align: center;
-
-    margin-top: 50px;
-    margin-bottom: 50px;
+    z-index: 9999;
 }
 
-.about-container > img{
-    margin-bottom: 40px;
+.content {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+    
 }
 
-.cancel-create-post {
+.tab-content {
+    padding: 0px;
     text-align: center;
+    background-color: #fff;
+    margin-top:120px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    min-height: 800px;  /* Add spacing to extend the content place */
+    flex-grow: 1;
+    background-color: rgba(204, 255, 0, 0.321);
+}
+
+.split-container {
+    display: flex;
+}
+
+.left-content {
+    width: 500x;
+    background-color: #cb0808;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(97, 11, 236, 0.1);
+}
+
+.right-content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 5px;
+    background-color: #d30808;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+/* Style the table with class "projecttable" */
+.projecttable {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* Style the table header */
+th {
+    background-color: #f2f2f2;
+    border: 2px solid black; /* Black borders */
+    font-weight: bold; /* Bold header title */
+    text-align: left;
+    padding: 8px;
+}
+
+/* Style the table rows */
+tr:nth-child(even) {
+    background-color: white; /* White cell background */
+}
+
+/* Style the table data cells */
+td {
+    border: 2px solid black; /* Black borders */
+    text-align: left;
+    padding: 8px;
+    color: black; /* Black text */
 }

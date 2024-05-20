@@ -1,100 +1,40 @@
-// Needed for dotenv
-require("dotenv").config();
+const { Client } = require('pg');
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+app.use(express.static('public'));
 
-// Needed for Express
-var express = require('express')
-var app = express()
-
-// Needed for EJS
+// Set EJS as the view engine
 app.set('view engine', 'ejs');
 
-// Needed for public directory
-app.use(express.static(__dirname + '/public'));
 
-// Needed for parsing form data
-app.use(express.json());       
-app.use(express.urlencoded({extended: true}));
-
-// Needed for Prisma to connect to database
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient();
-
-// Main landing page
-app.get('/', async function(req, res) {
-
-    // Try-Catch for any errors
-    try {
-        // Get all blog posts
-        const blogs = await prisma.post.findMany({
-                orderBy: [
-                  {
-                    id: 'desc'
-                  }
-                ]
-        });
-
-        // Render the homepage with all the blog posts
-        await res.render('pages/home', { blogs: blogs });
-      } catch (error) {
-        res.render('pages/home');
-        console.log(error);
-      } 
+// Create a PostgreSQL client
+const client = new Client({
+  connectionString: 'postgres://grants_portal_database_user:YPzjkqyQpYnctnKsvvMzoUplj8rrcTXN@dpg-cp2ukbq1hbls7385ce7g-a.singapore-postgres.render.com/grants_portal_database',
+  ssl: {
+    rejectUnauthorized: false // Only if your provider requires SSL
+  }
 });
 
-// About page
-app.get('/about', function(req, res) {
-    res.render('pages/about');
+// Connect to the PostgreSQL database
+client.connect()
+  .then(() => console.log('Connected to the PostgreSQL database'))
+  .catch(err => console.error('Error connecting to the PostgreSQL database', err));
+
+// Define a route to fetch data and render the EJS template
+app.get('/', async (req, res) => {
+  try {
+    // Fetch data from the PostgreSQL database
+    const result = await client.query('SELECT * FROM project');
+    const projects = result.rows;
+
+    // Render the EJS template and pass the data
+    res.render('index', { projects });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
-// New post page
-app.get('/new', function(req, res) {
-    res.render('pages/new');
-});
-
-// Create a new post
-app.post('/new', async function(req, res) {
-    
-    // Try-Catch for any errors
-    try {
-        // Get the title and content from submitted form
-        const { title, content } = req.body;
-
-        // Reload page if empty title or content
-        if (!title || !content) {
-            console.log("Unable to create new post, no title or content");
-            res.render('pages/new');
-        } else {
-            // Create post and store in database
-            const blog = await prisma.post.create({
-                data: { title, content },
-            });
-
-            // Redirect back to the homepage
-            res.redirect('/');
-        }
-      } catch (error) {
-        console.log(error);
-        res.render('pages/new');
-      }
-
-});
-
-// Delete a post by id
-app.post("/delete/:id", async (req, res) => {
-    const { id } = req.params;
-    
-    try {
-        await prisma.post.delete({
-            where: { id: parseInt(id) },
-        });
-      
-        // Redirect back to the homepage
-        res.redirect('/');
-    } catch (error) {
-        console.log(error);
-        res.redirect('/');
-    }
-  });
-
-// Tells the app which port to run on
-app.listen(8080);
+// Start the Express server
+app.listen(port, () => console.log(`Server is running on port ${port}`));

@@ -1,18 +1,17 @@
 {
-  "name": "techup-sample-blog",
+  "name": "grants-portal",
   "version": "1.0.0",
-  "description": "Sample Blog webapp for TechUp",
-  "main": "index.js",
+  "description": "A web application for displaying data from a database",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.11.0",
     "dotenv": "^16.4.5",
-    "ejs": "^3.1.9",
-    "express": "^4.19.1"
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "expresss": "^0.0.0",
+    "pg": "^8.11.5",
+    "pj": "^0.3.5"
   }
 }
