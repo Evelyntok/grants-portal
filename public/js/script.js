@@ -2,7 +2,22 @@
 window.onload = function() {
     openTab("grant-call");
 
-// script.js
+
+// Function to toggle visibility of the search bar
+function toggleSearchBar() {
+  var searchBar = document.querySelector('.search-bar');
+  searchBar.classList.toggle('hidden');
+  
+  // Focus on the search input when the search bar is shown
+  if (!searchBar.classList.contains('hidden')) {
+    var searchInput = searchBar.querySelector('input[type="text"]');
+    searchInput.focus();
+  }
+}
+
+// Add event listener to the search icon for toggling search bar visibility
+document.querySelector('.search-icon').addEventListener('click', toggleSearchBar);
+
 
 // Function to fetch data from the server and update the table
 function fetchData() {

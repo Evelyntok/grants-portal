@@ -2,6 +2,8 @@ const { Client } = require('pg');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
+
+//public directory
 app.use(express.static('public'));
 
 // Set EJS as the view engine

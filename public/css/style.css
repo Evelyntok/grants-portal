@@ -13,7 +13,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #ffffff;
     box-shadow: 0 0 50px #e9ecea;
-    max-width: 1280px; /* Ensure the container doesn't exceed 1080px */
+    max-width: 1280px; 
     margin: 0 auto; /* Center the container horizontally */
     
 }
@@ -22,10 +22,10 @@ header {
     background-color: #ffffff;
     color: #333;
     font-size: 16px;
-    padding: 20px 0 20px 0;
+    padding: 40px 0 25px 0; /* Top Right Bottom Left*/
     position: fixed;
     top: 0;
-    width: 1080px;
+    width: 1280px;
     z-index: 9999;
 }
 .logo {
@@ -61,22 +61,9 @@ nav ul li a:hover {
     color: rgb(113, 2, 2);
 }
 
-footer {
-    background-color: rgb(94, 93, 93);
-    color: #fff;
-    padding: 10px 0;
-    position: fixed;
-    bottom: 0;
-    width: 1080px;
-    text-align: center;
-    z-index: 9999;
-}
-
 .content {
-    padding-top: 40px;
+    padding-top: 80px;
     padding-bottom: 40px;
-    
-    
 }
 
 .tab-content {
@@ -88,7 +75,7 @@ footer {
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     min-height: 800px;  /* Add spacing to extend the content place */
     flex-grow: 1;
-    background-color: rgba(204, 255, 0, 0.321);
+    background-color: rgba(255, 255, 255, 0.321);
 }
 
 .split-container {
@@ -97,20 +84,87 @@ footer {
 
 .left-content {
     width: 500x;
-    background-color: #cb0808;
-    padding: 20px;
+    background-color: #74a0f0;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(97, 11, 236, 0.1);
 }
 
 .right-content {
     flex-grow: 1;
-    padding: 20px;
     margin-left: 5px;
-    background-color: #d30808;
+    background-color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
+footer {
+    background-color: rgb(113, 2, 2);
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 1280px;
+    text-align: center;
+    z-index: 9999;
+}
+
+/* Search bar */
+/* Style the list items */
+nav ul li {
+    display: inline-block;
+  }
+  
+  /* Adjustments for search position */
+  .search-li {
+    position: relative;
+  }
+  
+  /* Style the search container */
+  .search-container {
+    position: absolute;
+    top: 0;
+    left: -160px; /* Adjust as needed */
+  }
+  
+  /* Style the search icon */
+  .search-icon {
+    cursor: pointer;
+  }
+  
+  /* Style the search bar */
+  .search-bar {
+    display: inline-block;
+  }
+  
+  /* Hide the search bar by default */
+  .hidden {
+    display: none;
+  }
+  
+  /* Style the search input */
+  .search-bar input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  /* Style the search button */
+  .search-bar button {
+    padding: 8px 12px;
+    background-color: #007bff; /* Example color, you can change it */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Style the search button hover effect */
+  .search-bar button:hover {
+    background-color: #0056b3; /* Example color, you can change it */
+  }
+
+  
+
 /* Style the table with class "projecttable" */
 .projecttable {
     border-collapse: collapse;
@@ -126,21 +180,23 @@ table {
 /* Style the table header */
 th {
     background-color: #f2f2f2;
-    border: 2px solid black; /* Black borders */
-    font-weight: bold; /* Bold header title */
+    border: 1px solid black;
+    font-weight: bold; /
     text-align: left;
+    font-size: small;
     padding: 8px;
 }
 
 /* Style the table rows */
 tr:nth-child(even) {
-    background-color: white; /* White cell background */
+    background-color: rgb(232, 232, 227); /* White cell background */
 }
 
 /* Style the table data cells */
 td {
-    border: 2px solid black; /* Black borders */
+    border: 1px solid black; 
     text-align: left;
+    font-size: small;
     padding: 8px;
-    color: black; /* Black text */
+    color: black; 
 }
