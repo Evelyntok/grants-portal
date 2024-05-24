@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Claim</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="/"><img class="logo" src="/images/logo.png" alt="Logo"></a>
+        </div>
+    </header>
+    
+    <div class="tab-content">
+        <Br>
+        <br>
+        <h2>Submit Claim</h2>
+        <form action="/submit" method="post">
+            <label for="proj_id">Project ID:</label>
+            <input type="number" id="proj_id" name="proj_id" required><br>
+            <label for="proj_title">Project Title:</label>
+            <input type="text" id="proj_title" name="proj_title" required><br>
+            <label for="proj_app_amt">Project Approved Amount:</label>
+            <input type="number" id="proj_app_amt" name="proj_app_amt" required><br>
+            <label for="proj_amt_uti">Amount Utilised:</label>
+            <input type="number" id="proj_amt_uti" name="proj_amt_uti" required><br>
+            <label for="proj_start_date">Project Start Date:</label>
+            <input type="date" id="proj_start_date" name="proj_start_date" required><br>
+            <label for="project_end_date">Project End Date:</label>
+            <input type="date" id="project_end_date" name="project_end_date" required><br>
+            <label for="proj_agency">Agency:</label>
+            <input type="text" id="proj_agency" name="proj_agency" required><br>
+            <label for="claim_amount">Claim Amount:</label>
+            <input type="number" id="claim_amount" name="claim_amount" required><br>
+            <label for="claim_date">Submission Date:</label>
+            <input type="date" id="claim_date" name="claim_date" required><br>
+            <label for="claim_status">Claim Status:</label>
+            <select id="claim_status" name="claim_status">
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="returned">Returned</option>
+                <option value="rejected">Rejected</option>
+            </select><br>
+            <button type="submit">Submit Claim</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Grantopia. All rights reserved.</p>
+    </footer>
+</body>
+</html>
