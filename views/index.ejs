@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!--Search Bar-->
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FE96GTPFL8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FE96GTPFL8');
+</script>
+
 </head>
 <body>
     <header>
@@ -21,6 +32,7 @@
                 <li><a href="#" onclick="openTab('reimbursement-claim')">Reimbursement Claim</a></li>
                 <li><a href="#" onclick="openTab('mid-year-revision')">Mid-Year Revision</a></li>
                 <li><a href="#" onclick="openTab('request-received')">Request Received</a></li>
+                
             </ul>
         </nav>
     </div>
@@ -46,10 +58,9 @@
                     <!-- Table to display project data -->
                     <label for="claimStatus">Select Claim Status:</label>
                     <select id="claimStatus">
-                        <option value="pending" selected>Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="returned">Returned</option>
-                        <option value="rejected">Rejected</option>
+                      <% claimStatuses.forEach(status => { %>
+                        <option value="<%= status.claim_status %>"><%= status.claim_status %></option>
+                      <% }) %>
                     </select>
                     
                     <table class="projecttable">

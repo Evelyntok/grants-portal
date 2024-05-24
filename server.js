@@ -84,3 +84,5 @@ app.post('/submit', async (req, res) => {
   }
 });
 //end of submit claim page
+
+//Populate dynamic dropdownlist for proj status
