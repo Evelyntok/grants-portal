@@ -82,3 +82,36 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 });
+
+//Start- Submit claim page
+function fetchProjectDetails(projTitle) {
+  // Make AJAX request to server to fetch project details
+  fetch(`/projects?title=${projTitle}`)
+    .then(response => response.json())
+    .then(data => {
+      // Populate other fields with project details
+      document.getElementById('proj_id').value = data.proj_id;
+      document.getElementById('proj_app_amt').value = data.proj_app_amt;
+      document.getElementById('proj_amt_uti').value = data.proj_amt_uti;
+      document.getElementById('proj_start_date').value = data.proj_start_date;
+      document.getElementById('project_end_date').value = data.project_end_date;
+    })
+    .catch(error => console.error('Error fetching project details:', error));
+}
+//End- Submit claim page
+
+
+
+// Fetch project titles from the server and populate the dropdown list
+    fetch('/projects')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('proj_title');
+            data.forEach(project => {
+                const option = document.createElement('option');
+                option.value = project.proj_title;
+                option.textContent = project.proj_title;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching project titles:', error));

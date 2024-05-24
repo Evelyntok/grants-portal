@@ -1,8 +1,10 @@
 const { Client } = require('pg');
+const { Pool } = require('pg'); 
 const express = require('express');
 const bodyParser = require('body-parser'); // submit claim - Import bodyParser module
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
+require('dotenv').config();
 
 //public directory
 app.use(express.static('public'));
@@ -10,9 +12,7 @@ app.use(express.static('public'));
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 
-// Submit claim - Use body-parser middleware to parse incoming request bodies
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+
 
 // Create a PostgreSQL client
 const client = new Client({
@@ -27,6 +27,12 @@ client.connect()
   .then(() => console.log('Connected to the PostgreSQL database'))
   .catch(err => console.error('Error connecting to the PostgreSQL database', err));
 
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  // Start the Express server
+  app.listen(port, () => console.log(`Server is running on port ${port}`));
+  
+  
 // Define a route to fetch data and render the EJS template
 app.get('/', async (req, res) => {
   try {
@@ -41,25 +47,8 @@ app.get('/', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+// Submit claim - Use body-parser middleware to parse incoming request bodies
 
-// Start the Express server
-app.listen(port, () => console.log(`Server is running on port ${port}`));
-
-// Update table
-app.get('/projects', async (req, res) => {
-  const { status } = req.query;
-
-  try {
-      const client = await client.connect();
-      const result = await client.query('SELECT * FROM projects WHERE claim_status = $1', [status]);
-      const projects = result.rows;
-      res.json(projects);
-      client.release();
-  } catch (err) {
-      console.error(err);
-      res.status(500).send('Error fetching projects');
-  }
-});
 
 
 // Start of submit claim page
@@ -83,6 +72,39 @@ app.post('/submit', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-//end of submit claim page
 
-//Populate dynamic dropdownlist for proj status
+
+
+// Route to fetch project titles
+app.get('/projects', async (req, res) => {
+  try {
+    const result = await client.query('SELECT proj_title FROM project');
+    const projects = result.rows;
+    res.json(projects);
+  } catch (error) {
+    console.error('Error fetching project titles:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route to fetch project details based on title
+app.get('/projects/details', async (req, res) => {
+  const { title } = req.query;
+  try {
+    const result = await client.query('SELECT * FROM project WHERE proj_title = $1', [title]);
+    const project = result.rows[0];
+    if (project) {
+      res.json(project);
+    } else {
+      res.status(404).send('Project not found');
+    }
+  } catch (error) {
+    console.error('Error fetching project details:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+// code to retrieve data from sql server to fill up form
+
+
+
+//end of submit claim page

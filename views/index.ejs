@@ -57,11 +57,15 @@
                 
                     <!-- Table to display project data -->
                     <label for="claimStatus">Select Claim Status:</label>
-                    <select id="claimStatus">
-                      <% claimStatuses.forEach(status => { %>
-                        <option value="<%= status.claim_status %>"><%= status.claim_status %></option>
-                      <% }) %>
+                    
+                      
+                      <select id="claimStatus">
+                        <option value="pending" selected>Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="returned">Returned</option>
+                        <option value="rejected">Rejected</option>
                     </select>
+                    
                     
                     <table class="projecttable">
                         <thead>
@@ -95,6 +99,8 @@
                                     <td><%= project.claim_status %></td>
                                 </tr>
                             <% }) %>
+
+                            
                         </tbody>
                        </table> 
                             
