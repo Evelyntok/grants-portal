@@ -40,6 +40,7 @@ header {
     text-align: left;
 }
 
+/* TOP HORIZONTAL Navigation*/
 nav ul {
     list-style-type: none;
     margin: 0;
@@ -96,6 +97,8 @@ nav ul li a:hover {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
+
+
 footer {
     background-color: rgb(113, 2, 2);
     color: #fff;
@@ -107,63 +110,7 @@ footer {
     z-index: 9999;
 }
 
-/* Search bar */
-/* Style the list items */
-nav ul li {
-    display: inline-block;
-  }
-  
-  /* Adjustments for search position */
-  .search-li {
-    position: relative;
-  }
-  
-  /* Style the search container */
-  .search-container {
-    position: absolute;
-    top: 0;
-    left: -160px; /* Adjust as needed */
-  }
-  
-  /* Style the search icon */
-  .search-icon {
-    cursor: pointer;
-  }
-  
-  /* Style the search bar */
-  .search-bar {
-    display: inline-block;
-  }
-  
-  /* Hide the search bar by default */
-  .hidden {
-    display: none;
-  }
-  
-  /* Style the search input */
-  .search-bar input[type="text"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  
-  /* Style the search button */
-  .search-bar button {
-    padding: 8px 12px;
-    background-color: #007bff; /* Example color, you can change it */
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  /* Style the search button hover effect */
-  .search-bar button:hover {
-    background-color: #0056b3; /* Example color, you can change it */
-  }
 
-  
 
 /* Style the table with class "projecttable" */
 .projecttable {
@@ -181,7 +128,7 @@ table {
 th {
     background-color: #f2f2f2;
     border: 1px solid black;
-    font-weight: bold; /
+    font-weight: bold; 
     text-align: left;
     font-size: small;
     padding: 8px;
@@ -200,3 +147,4 @@ td {
     padding: 8px;
     color: black; 
 }
+

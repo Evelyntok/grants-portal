@@ -21,18 +21,6 @@
                 <li><a href="#" onclick="openTab('reimbursement-claim')">Reimbursement Claim</a></li>
                 <li><a href="#" onclick="openTab('mid-year-revision')">Mid-Year Revision</a></li>
                 <li><a href="#" onclick="openTab('request-received')">Request Received</a></li>
-                <!--Search Bar-->
-                <li class="search-li">
-                    <div class="search-container">
-                        <div class="search-icon">
-                          <i class="fa fa-search"></i>
-                        </div>
-                        <div class="search-bar hidden">
-                          <input type="text" placeholder="Search...">
-                          <button type="submit">Search</button>
-                        </div>
-                    </div> 
-                </li> 
             </ul>
         </nav>
     </div>
@@ -53,10 +41,18 @@
                 </div>
                 <div class="right-content">
                     <!-- Right content area with the remaining width available -->
-                    <h3>Reimbursement claims received</h2>
+                    <h3 style="text-align: left;">Reimbursement claims received</h2>
                 
                     <!-- Table to display project data -->
-                    <table class="projecttable"> <!-- Add class "projecttable" to the table -->
+                    <label for="claimStatus">Select Claim Status:</label>
+                    <select id="claimStatus">
+                        <option value="pending" selected>Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="returned">Returned</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    
+                    <table class="projecttable">
                         <thead>
                             <tr>
                                 <th>Project ID</th>
@@ -71,7 +67,9 @@
                                 <th>Claim Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        
+                        <tbody id="projectData">
+                            <!-- Table rows will be dynamically populated here -->
                             <% projects.forEach(project => { %>
                                 <tr>
                                     <td><%= project.proj_id %></td>
@@ -87,10 +85,8 @@
                                 </tr>
                             <% }) %>
                         </tbody>
-                    </table>
-
-                    <!-- Link to your script.js file for fetching and displaying data -->
-                    <script src="script.js"></script>                 
+                       </table> 
+                            
                 </div>
             </div>
         </div>
@@ -98,6 +94,38 @@
         <div id="mid-year-revision" class="tab-content" style="display:none;">
             <br><h2>Mid-Year Revision</h2>
             <p>Review and revise your grant applications.</p>
+            <table class="projecttable"> <!-- Add class "projecttable" to the table -->
+                <thead> 
+                    <tr>
+                        <th>Project ID</th>
+                        <th>Project Title</th>
+                        <th>Project Approved Amount</th>
+                        <th>Amount Utilised</th>
+                        <th>Project Start Date</th>
+                        <th>Project End Date</th>
+                        <th>Agency</th>
+                        <th>Claim Amount</th>
+                        <th>Submission Date</th>
+                        <th>Claim Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% projects.forEach(project => { %>
+                        <tr>
+                            <td><%= project.proj_id %></td>
+                            <td><%= project.proj_title %></td>
+                            <td><%= project.proj_app_amt %></td>
+                            <td><%= project.proj_amt_uti %></td>
+                            <td><%= project.proj_start_date %></td>
+                            <td><%= project.project_end_date %></td>
+                            <td><%= project.proj_agency %></td>
+                            <td><%= project.claim_amount %></td>
+                            <td><%= project.claim_date %></td>
+                            <td><%= project.claim_status %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+                 </table> 
         </div>
 
         <div id="request-received" class="tab-content" style="display:none;">
@@ -105,6 +133,8 @@
             <p>View requests received.</p>
         </div>
     </div>
+
+
 
     <footer>
         <p>&copy; 2024 XXX Grants Portal. All rights reserved.</p>

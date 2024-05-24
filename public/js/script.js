@@ -3,22 +3,6 @@ window.onload = function() {
     openTab("grant-call");
 
 
-// Function to toggle visibility of the search bar
-function toggleSearchBar() {
-  var searchBar = document.querySelector('.search-bar');
-  searchBar.classList.toggle('hidden');
-  
-  // Focus on the search input when the search bar is shown
-  if (!searchBar.classList.contains('hidden')) {
-    var searchInput = searchBar.querySelector('input[type="text"]');
-    searchInput.focus();
-  }
-}
-
-// Add event listener to the search icon for toggling search bar visibility
-document.querySelector('.search-icon').addEventListener('click', toggleSearchBar);
-
-
 // Function to fetch data from the server and update the table
 function fetchData() {
     fetch('/api/data')
@@ -69,5 +53,32 @@ function openTab(divId) {
   }
 }
 
+/* Filter table by approved or pending */
+document.addEventListener('DOMContentLoaded', function() {
+  // Set default selection to 'Pending' after the DOM has loaded
+  var claimStatusDropdown = document.getElementById('claimStatus');
+  claimStatusDropdown.value = 'pending'; // Set the value of the dropdown directly
 
+  // Manually trigger change event for the dropdown list
+  var event = new Event('change');
+  claimStatusDropdown.dispatchEvent(event);
 
+  // Event listener for dropdown list change
+  claimStatusDropdown.addEventListener('change', function() {
+      var status = this.value.toLowerCase(); // Get the selected status
+      
+      // Get all rows in the table body
+      var rows = document.querySelectorAll('.projecttable tbody tr');
+
+      // Loop through each row and show/hide based on selected status
+      rows.forEach(function(row) {
+          var claimStatusCell = row.querySelector('td:nth-child(10)'); // Assuming claim status is in the 10th column
+          var rowStatus = claimStatusCell.innerText.toLowerCase();
+          if (status === 'all' || rowStatus === status) {
+              row.style.display = ''; // Show row if 'all' is selected or claim status matches selected status
+          } else {
+              row.style.display = 'none'; // Hide row if claim status doesn't match selected status
+          }
+      });
+  });
+});

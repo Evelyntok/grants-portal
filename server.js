@@ -40,3 +40,21 @@ app.get('/', async (req, res) => {
 
 // Start the Express server
 app.listen(port, () => console.log(`Server is running on port ${port}`));
+
+// Update table
+app.get('/projects', async (req, res) => {
+  const { status } = req.query;
+
+  try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM projects WHERE claim_status = $1', [status]);
+      const projects = result.rows;
+      res.json(projects);
+      client.release();
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching projects');
+  }
+});
+
+
