@@ -108,6 +108,12 @@ footer {
     width: 1280px;
     text-align: center;
     z-index: 9999;
+
+.disclaimer {
+        font-size: 8px;
+        margin-bottom: 5px; 
+        padding: 0px 250px 0px 250px;
+    }
 }
 
 
