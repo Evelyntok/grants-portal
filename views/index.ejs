@@ -29,7 +29,7 @@
     <div class="content">
         <div id="grant-call" class="tab-content">
             <br><h2>Grant Call</h2>
-            <p>Welcome to the Grant Call page!</p>
+            <p>Welcome to the Grant Call page</p>
         </div>
         
         <div id="reimbursement-claim" class="tab-content" style="display:none;">
@@ -93,39 +93,7 @@
         
         <div id="mid-year-revision" class="tab-content" style="display:none;">
             <br><h2>Mid-Year Revision</h2>
-            <p>Review and revise your grant applications.</p>
-            <table class="projecttable"> <!-- Add class "projecttable" to the table -->
-                <thead> 
-                    <tr>
-                        <th>Project ID</th>
-                        <th>Project Title</th>
-                        <th>Project Approved Amount</th>
-                        <th>Amount Utilised</th>
-                        <th>Project Start Date</th>
-                        <th>Project End Date</th>
-                        <th>Agency</th>
-                        <th>Claim Amount</th>
-                        <th>Submission Date</th>
-                        <th>Claim Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% projects.forEach(project => { %>
-                        <tr>
-                            <td><%= project.proj_id %></td>
-                            <td><%= project.proj_title %></td>
-                            <td><%= project.proj_app_amt %></td>
-                            <td><%= project.proj_amt_uti %></td>
-                            <td><%= project.proj_start_date %></td>
-                            <td><%= project.project_end_date %></td>
-                            <td><%= project.proj_agency %></td>
-                            <td><%= project.claim_amount %></td>
-                            <td><%= project.claim_date %></td>
-                            <td><%= project.claim_status %></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-                 </table> 
+            <p>Revise your project budget requested</p>
         </div>
 
         <div id="request-received" class="tab-content" style="display:none;">
