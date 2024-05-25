@@ -17,51 +17,75 @@
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const projTitleSelect = document.getElementById('proj_title');
-    const projIdInput = document.getElementById('proj_id');
-    const projAppAmtInput = document.getElementById('proj_app_amt');
-    const projAmtUtiInput = document.getElementById('proj_amt_uti');
-    const projStartDateInput = document.getElementById('proj_start_date');
-    const projectEndDateInput = document.getElementById('project_end_date');
-    const projAgencyInput = document.getElementById('proj_agency');
-    const claimAmountInput = document.getElementById('claim_amount');
-    const claimDateInput = document.getElementById('claim_date');
-    const claimStatusSelect = document.getElementById('claim_status');
+        const projTitleSelect = document.getElementById('proj_title');
+        const projIdInput = document.getElementById('proj_id');
+        const projAppAmtInput = document.getElementById('proj_app_amt');
+        const projAmtUtiInput = document.getElementById('proj_amt_uti');
+        const projStartDateInput = document.getElementById('proj_start_date');
+        const projectEndDateInput = document.getElementById('project_end_date');
+        const projAgencyInput = document.getElementById('proj_agency');
+        const claimAmountInput = document.getElementById('claim_amount');
+        const claimDateInput = document.getElementById('claim_date');
+        const claimStatusSelect = document.getElementById('claim_status');
 
-    // Event listener for the dropdown list to fetch project details
-    projTitleSelect.addEventListener('change', function () {
-        const selectedTitle = projTitleSelect.value;
-        fetch(`/projects/details?title=${selectedTitle}`)
-            .then(response => response.json())
-            .then(data => {
-                // Populate form fields with retrieved project details
-                projIdInput.value = data.proj_id || '';
-                projAppAmtInput.value = data.proj_app_amt || '';
-                projAmtUtiInput.value = data.proj_amt_uti || '';
-                projStartDateInput.value = data.proj_start_date || '';
-                projectEndDateInput.value = data.project_end_date || '';
-                projAgencyInput.value = data.proj_agency || '';
-            })
-            .catch(error => console.error('Error fetching project details:', error));
-    });
+        function formatDateString(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
 
-    // Fetch project titles from the server and populate the dropdown list
-    fetch('/projects')
+        // Event listener for the dropdown list to fetch project details
+        projTitleSelect.addEventListener('change', function () {
+            const selectedTitle = projTitleSelect.value;
+            if (selectedTitle) {
+                fetch(`/projects/details?title=${encodeURIComponent(selectedTitle)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Populate form fields with retrieved project details
+                        projIdInput.value = data.proj_id || '';
+                        projAppAmtInput.value = data.proj_app_amt || '';
+                        projAmtUtiInput.value = data.proj_amt_uti || '';
+                        projStartDateInput.value = formatDateString(data.proj_start_date);
+                        projectEndDateInput.value = formatDateString(data.project_end_date);
+                        projAgencyInput.value = data.proj_agency || '';
+                    })
+                    .catch(error => console.error('Error fetching project details:', error));
+            }
+            // Set "Pending" as the default selected option for claim_status
+            claimStatusSelect.value = 'Pending';
+        });
+            
+        // Fetch project titles from the server
+        fetch('/projects')
         .then(response => response.json())
         .then(projects => {
+            console.log('Projects:', projects); // Verify that projects are received correctly
+            const projTitleDropdown = document.getElementById('proj_title');
+            // Clear existing options
+            projTitleDropdown.innerHTML = '';
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Select Project Title';
+            projTitleDropdown.appendChild(defaultOption);
+            // Add project titles as options
             projects.forEach(project => {
-                const option = document.createElement('option');
-                option.value = project.proj_title;
-                option.textContent = project.proj_title;
-                projTitleSelect.appendChild(option);
+            const option = document.createElement('option');
+            option.value = project.proj_title;
+            option.text = project.proj_title;
+            projTitleDropdown.appendChild(option);
             });
         })
         .catch(error => console.error('Error fetching project titles:', error));
 
-    // Set default values for claim date and status
-    claimDateInput.valueAsDate = new Date();
-    claimStatusSelect.value = 'pending';
-});
+
+        // Set default values for claim date and status
+        claimDateInput.valueAsDate = new Date();
+        //claimStatusSelect.value = 'pending';
+    });
 </script>
 </head>
 <body>
@@ -77,32 +101,34 @@
         <h2>Submit Claim</h2>
         <form action="/submit" method="post">
             <!-- Dropdown list for project titles -->
+           
             <label for="proj_title">Select Project Title:</label>
             <select id="proj_title" name="proj_title" required>
                 <option value="">Select Project Title</option>
-            </select>
-
+              </select>
+              
             <!-- Form fields populated based on selected project title -->
             <label for="proj_id">Project ID:</label>
-            <input type="number" id="proj_id" name="proj_id" required><br>
+            <input type="number" id="proj_id" name="proj_id" required readonly><br>
             <label for="proj_app_amt">Project Approved Amount:</label>
-            <input type="number" id="proj_app_amt" name="proj_app_amt" required><br>
+            <input type="number" id="proj_app_amt" name="proj_app_amt" required readonly><br>
             <label for="proj_amt_uti">Amount Utilised:</label>
-            <input type="number" id="proj_amt_uti" name="proj_amt_uti" required><br>
+            <input type="number" id="proj_amt_uti" name="proj_amt_uti" required readonly><br>
             <label for="proj_start_date">Project Start Date:</label>
-            <input type="date" id="proj_start_date" name="proj_start_date" required><br>
+            <input type="date" id="proj_start_date" name="proj_start_date" required readonly><br>
             <label for="project_end_date">Project End Date:</label>
-            <input type="date" id="project_end_date" name="project_end_date" required><br>
+            <input type="date" id="project_end_date" name="project_end_date" required readonly><br>
             <label for="proj_agency">Agency:</label>
-            <input type="text" id="proj_agency" name="proj_agency" required><br>
+            <input type="text" id="proj_agency" name="proj_agency" required readonly><br>
             <label for="claim_amount">Claim Amount:</label>
             <input type="number" id="claim_amount" name="claim_amount" required><br>
             <label for="claim_date">Submission Date:</label>
             <input type="date" id="claim_date" name="claim_date" required><br>
             <label for="claim_status">Claim Status:</label>
-            <select id="claim_status" name="claim_status">
-                <option value="pending">Pending</option>
-            </select><br>
+            <!-- <select id="claim_status" name="claim_status">
+                <option value="Pending" selected>Pending</option>
+            </select><br>-->
+            <input type="text" id="claim_status" name="claim_status" required><br>
             <button type="submit">Submit Claim</button>
         </form>
     </div>

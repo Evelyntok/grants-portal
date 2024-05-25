@@ -1,40 +1,62 @@
 // Open the default tab when the page loads
 window.onload = function() {
     openTab("grant-call");
+}
+    
 
+document.addEventListener('DOMContentLoaded', function() {
+  // Function to fetch data from the server and update the table
+  function fetchData() {
+      fetch('/api/data')
+          .then(response => response.json())
+          .then(data => {
+              const dataTable = document.getElementById('data-table');
+              const tbody = dataTable.querySelector('tbody');
 
-// Function to fetch data from the server and update the table
-function fetchData() {
-    fetch('/api/data')
-      .then(response => response.json())
-      .then(data => {
-        const dataTable = document.getElementById('data-table');
-        const tbody = dataTable.querySelector('tbody');
-        
-        // Clear existing rows
-        tbody.innerHTML = '';
-  
-        // Populate table with fetched data
-        data.forEach(row => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${row.project_id}</td>
-            <td>${row.project_title}</td>
-            <!-- Add more table data cells as needed -->
-          `;
-          tbody.appendChild(tr);
-        });
-      })
-      .catch(error => console.error('Error fetching data:', error));
+              // Clear existing rows
+              tbody.innerHTML = '';
+
+              // Populate table with fetched data
+              data.forEach(row => {
+                  const tr = document.createElement('tr');
+                  tr.innerHTML = `
+                      <td>${row.project_id}</td>
+                      <td>${row.project_title}</td>
+                      <td>${row.proj_start_date}</td>
+                      <td>${row.project_end_date}</td>
+                      <td>${row.proj_app_amt}</td>
+                      <td>${row.proj_amt_uti}</td>
+                      <td>${row.claim_amount}</td>
+                      <td>${row.proj_agency}</td>
+                      <td>${row.claim_date}</td>
+                      <td>${row.claim_status}</td>
+                  `;
+                  tbody.appendChild(tr);
+              });
+          })
+          .catch(error => console.error('Error fetching data:', error));
   }
-  
-  // Call fetchData function when the page loads
-  window.onload = function() {
-    fetchData();
-  };
-  
 
-};
+  // Call fetchData function when the DOM is loaded
+  fetchData();
+
+  // Function to format date in dd/mm/yyyy format
+  function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+  }
+
+  // Function to format currency with dollar sign
+  function formatCurrency(amount) {
+      return `$${parseFloat(amount).toFixed(2)}`;
+  }
+});
+
+
+
 // Function to show/hide divs based on navigation bar clicks
 function openTab(divId) {
   // Get all tab-content divs
@@ -101,17 +123,71 @@ function fetchProjectDetails(projTitle) {
 //End- Submit claim page
 
 
+// Approve/reject button functions
+document.addEventListener('DOMContentLoaded', function() {
+  const approveButtons = document.querySelectorAll('.approve-btn');
+  const rejectButtons = document.querySelectorAll('.reject-btn');
 
-// Fetch project titles from the server and populate the dropdown list
-    fetch('/projects')
-        .then(response => response.json())
-        .then(data => {
-            const select = document.getElementById('proj_title');
-            data.forEach(project => {
-                const option = document.createElement('option');
-                option.value = project.proj_title;
-                option.textContent = project.proj_title;
-                select.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching project titles:', error));
+  approveButtons.forEach(button => {
+      button.addEventListener('click', function() {
+          const row = this.closest('tr');
+          const projId = row.querySelector('.proj-id').textContent;
+          const claimAmount = parseFloat(row.querySelector('.claim-amount').textContent);
+          const projAppAmt = parseFloat(row.querySelector('.proj-app-amt').textContent);
+          const projAmtUti = parseFloat(row.querySelector('.proj-amt-uti').textContent);
+
+          if (claimAmount <= projAppAmt - projAmtUti) {
+              // Approve the claim
+              approveClaim(projId);
+          } else {
+              alert("Project exceeded available grant amount. Please check again.");
+          }
+      });
+  });
+
+  rejectButtons.forEach(button => {
+      button.addEventListener('click', function() {
+          const row = this.closest('tr');
+          const projId = row.querySelector('.proj-id').textContent;
+          const reason = prompt("Enter reason for rejection:");
+
+          if (reason) {
+              // Reject the claim
+              rejectClaim(projId, reason);
+          }
+      });
+  });
+
+  function approveClaim(projId) {
+      fetch(`/approve/${projId}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(response => response.json())
+      .then(data => {
+          alert(data.message);
+          location.reload(); // Refresh the page to update the table
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function rejectClaim(projId, reason) {
+      fetch(`/reject/${projId}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ reason })
+      })
+      .then(response => response.json())
+      .then(data => {
+          alert(data.message);
+          location.reload(); // Refresh the page to update the table
+      })
+      .catch(error => console.error('Error:', error));
+  }
+});
+
+//End of approve/reject function button

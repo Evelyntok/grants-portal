@@ -22,7 +22,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <a  href="index.html"><img class="logo" src= /images/logo.png></img></a>
+            <a  href="#"><img class="logo" src= /images/logo.png></img></a>
         </div>
         <div>
         <nav>
@@ -45,15 +45,10 @@
         </div>
         
         <div id="reimbursement-claim" class="tab-content" style="display:none;">
-            <div class="split-container">
-                <div class="left-content">
-                    <!-- Left content area with 250px width -->
-                    <h2>Left Content Area</h2>
-                    <p>Content here...</p>
-                </div>
+           
                 <div class="right-content">
                     <!-- Right content area with the remaining width available -->
-                    <h3 style="text-align: left;">Reimbursement claims received</h2>
+                    <h3 style="text-align: left; padding-top: 10px;">Reimbursement claims received</h2>
                 
                     <!-- Table to display project data -->
                     <label for="claimStatus">Select Claim Status:</label>
@@ -62,7 +57,6 @@
                       <select id="claimStatus">
                         <option value="pending" selected>Pending</option>
                         <option value="approved">Approved</option>
-                        <option value="returned">Returned</option>
                         <option value="rejected">Rejected</option>
                     </select>
                     
@@ -70,12 +64,12 @@
                     <table class="projecttable">
                         <thead>
                             <tr>
-                                <th>Project ID</th>
+                                <th>ID</th>
                                 <th>Project Title</th>
                                 <th>Project Approved Amount</th>
                                 <th>Amount Utilised</th>
-                                <th>Project Start Date</th>
-                                <th>Project End Date</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                                 <th>Agency</th>
                                 <th>Claim Amount</th>
                                 <th>Submission Date</th>
@@ -83,8 +77,9 @@
                             </tr>
                         </thead>
                         
-                        <tbody id="projectData">
+                        <tbody id="data-table">
                             <!-- Table rows will be dynamically populated here -->
+                            <!-- Inside the table's tbody -->
                             <% projects.forEach(project => { %>
                                 <tr>
                                     <td><%= project.proj_id %></td>
@@ -97,13 +92,22 @@
                                     <td><%= project.claim_amount %></td>
                                     <td><%= project.claim_date %></td>
                                     <td><%= project.claim_status %></td>
+                                    <td>
+                                        <!-- Approve Button -->
+                                        <button class="approve-btn" data-proj-id="<%= project.proj_id %>">Approve</button>
+                                    </td>
+                                    <td>
+                                        <!-- Reject Button -->
+                                        <button class="reject-btn" data-proj-id="<%= project.proj_id %>">Reject</button>
+                                    </td>
                                 </tr>
                             <% }) %>
 
                             
                         </tbody>
                        </table> 
-                            
+                      
+                        
                 </div>
             </div>
         </div>
@@ -128,6 +132,60 @@
             <p>Disclaimer: This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</p>
         </div>
     </footer>
+    <<script>
+        //Data table functions sort by claim status start
+        document.addEventListener('DOMContentLoaded', function() {
+            var claimStatusDropdown = document.getElementById('claimStatus');
+            var rows = document.querySelectorAll('#data-table tr');
+        
+            // Set default selection to 'Pending' after the DOM has loaded
+            claimStatusDropdown.value = 'pending';
+        
+            // Event listener for dropdown list change
+            claimStatusDropdown.addEventListener('change', function() {
+                var status = this.value.toLowerCase();
+        
+                // Loop through each row and show/hide based on selected status
+                rows.forEach(function(row) {
+                    var claimStatusCell = row.querySelector('td:nth-child(10)'); // Assuming claim status is in the 10th column
+                    var rowStatus = claimStatusCell.innerText.toLowerCase();
+                    if (status === 'all' || rowStatus === status) {
+                        row.style.display = ''; // Show row if 'all' is selected or claim status matches selected status
+                    } else {
+                        row.style.display = 'none'; // Hide row if claim status doesn't match selected status
+                    }
+                });
+            });
+        
+            // Trigger change event for the dropdown list after setting default value
+            var event = new Event('change');
+            claimStatusDropdown.dispatchEvent(event);
+        });
+        //Data table functions sort by claim status end
+        
+        // approve & delete button start
+            document.addEventListener('DOMContentLoaded', function() {
+                const approveButtons = document.querySelectorAll('.approve-btn');
+                const rejectButtons = document.querySelectorAll('.reject-btn');
 
+                approveButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const projId = this.getAttribute('data-proj-id');
+                        // Implement the logic to handle approve action here
+                        // You can call a function to perform the action or directly execute the code here
+                    });
+                });
+
+                rejectButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const projId = this.getAttribute('data-proj-id');
+                        // Implement the logic to handle reject action here
+                        // You can call a function to perform the action or directly execute the code here
+                    });
+                });
+            });
+        // approve & delete button end
+        </script>
+    
 </body>
 </html>
