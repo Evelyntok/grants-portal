@@ -169,10 +169,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = this.closest('tr');
             const projId = row.querySelector('.proj-id').textContent;
             const reason = prompt("Enter reason for rejection:");
-
-            if (reason) {
+            const projtitle = row.querySelector('.proj-title').textContent;
+            const applicantEmail = row.querySelector('.applicant-email').textContent;
+            console.log('applicantEmail: ', applicantEmail);
+            if (reason) {   
                 // Reject the claim
-                rejectClaim(projId, reason);
+                rejectClaim(projId, reason, projtitle, applicantEmail);
             }
         });
     });
@@ -206,13 +208,22 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error:', error));
     }
     
-    function rejectClaim(projId, reason) {
+    function rejectClaim(projId, reason, projTitle, applicantEmail) {
+        console.log('projId:', projId);
+        console.log('reason:', reason);
+        console.log('projTitle:', projTitle);
+        console.log('applicantEmail:', applicantEmail);
+    
         fetch(`/reject/${projId}`, { // Correct route path
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ reason })
+            body: JSON.stringify({ 
+                projId: projId,
+                reason: reason,
+                projTitle: projTitle,
+                 })
         })
         .then(response => response.json())
         .then(data => {

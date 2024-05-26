@@ -208,13 +208,13 @@ app.post('/reject/:id', async (req, res) => {
   try {
     console.log('Updating database reject...');
       await client.query('UPDATE project SET claim_status = $1 WHERE proj_id = $2', ['Rejected', id]);
-      
+      console.log('Updated database reject...'); 
       
 
-      res.json({ success: true });
+      res.json({ success: true, message: 'Claim rejected successfully' }); // Send success message
   } catch (error) {
       console.error('Error updating data in database:', error);
-      res.status(500).json({ success: false });
+      res.status(500).json({ success: false, message: 'Internal Server Error' }); // Send error message
   }
 });
 
