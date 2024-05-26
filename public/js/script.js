@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                       <td>${row.proj_agency}</td>
                       <td>${row.claim_date}</td>
                       <td>${row.claim_status}</td>
+                      <td>${row.applicant_email}</td>
                   `;
                   tbody.appendChild(tr);
               });
@@ -124,70 +125,104 @@ function fetchProjectDetails(projTitle) {
 
 
 // Approve/reject button functions
+
 document.addEventListener('DOMContentLoaded', function() {
-  const approveButtons = document.querySelectorAll('.approve-btn');
-  const rejectButtons = document.querySelectorAll('.reject-btn');
+    const approveButtons = document.querySelectorAll('.approve-btn');
+    const rejectButtons = document.querySelectorAll('.reject-btn');
 
-  approveButtons.forEach(button => {
-      button.addEventListener('click', function() {
-          const row = this.closest('tr');
-          const projId = row.querySelector('.proj-id').textContent;
-          const claimAmount = parseFloat(row.querySelector('.claim-amount').textContent);
-          const projAppAmt = parseFloat(row.querySelector('.proj-app-amt').textContent);
-          const projAmtUti = parseFloat(row.querySelector('.proj-amt-uti').textContent);
+    approveButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const projId = row.querySelector('.proj-id').textContent;
+            const projtitle = row.querySelector('.proj-title').textContent;
+            const claimAmountRaw = row.querySelector('.claim-amount').textContent.replace('$', '');
+            const projAppAmtRaw = row.querySelector('.proj-app-amt').textContent.replace('$', '');
+            const projAmtUtiRaw = row.querySelector('.proj-amt-uti').textContent.replace('$', '');
+           
+            console.log('Raw Claim Amount:', claimAmountRaw);
+            console.log('Raw Project Approved Amount:', projAppAmtRaw);
+            console.log('Raw Project Amount Utilised:', projAmtUtiRaw);
 
-          if (claimAmount <= projAppAmt - projAmtUti) {
-              // Approve the claim
-              approveClaim(projId);
-          } else {
-              alert("Project exceeded available grant amount. Please check again.");
-          }
-      });
-  });
+            const claimAmount = parseFloat(claimAmountRaw);
+            const projAppAmt = parseFloat(projAppAmtRaw);
+            const projAmtUti = parseFloat(projAmtUtiRaw);
+            const applicantEmail = row.querySelector('.applicant-email').textContent;
+            console.log('Project ID:', projId);
+            console.log('Project Title:', projtitle);
+            console.log('applicantEmail: ', applicantEmail);
+            console.log('Claim Amount:', claimAmount);
+            console.log('Project Approved Amount:', projAppAmt);
+            console.log('Project Amount Utilised:', projAmtUti);
+            console.log('Available Amount:', projAppAmt - projAmtUti);
 
-  rejectButtons.forEach(button => {
-      button.addEventListener('click', function() {
-          const row = this.closest('tr');
-          const projId = row.querySelector('.proj-id').textContent;
-          const reason = prompt("Enter reason for rejection:");
+            if (claimAmount <= projAppAmt - projAmtUti) {
+                // Approve the claim
+                approveClaim(projId, projtitle, claimAmount, projAppAmt, projAmtUti, applicantEmail);
+            } else {
+                alert("Project exceeded available grant amount. Please check again.");
+            }
+        });
+    });
 
-          if (reason) {
-              // Reject the claim
-              rejectClaim(projId, reason);
-          }
-      });
-  });
+    rejectButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const projId = row.querySelector('.proj-id').textContent;
+            const reason = prompt("Enter reason for rejection:");
 
-  function approveClaim(projId) {
-      fetch(`/approve/${projId}`, {
-          method: 'PUT',
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      })
-      .then(response => response.json())
-      .then(data => {
-          alert(data.message);
-          location.reload(); // Refresh the page to update the table
-      })
-      .catch(error => console.error('Error:', error));
-  }
+            if (reason) {
+                // Reject the claim
+                rejectClaim(projId, reason);
+            }
+        });
+    });
 
-  function rejectClaim(projId, reason) {
-      fetch(`/reject/${projId}`, {
-          method: 'PUT',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ reason })
-      })
-      .then(response => response.json())
-      .then(data => {
-          alert(data.message);
-          location.reload(); // Refresh the page to update the table
-      })
-      .catch(error => console.error('Error:', error));
-  }
+    function approveClaim(projId, projTitle, claimAmount, projAppAmt, projAmtUti, applicantEmail) {
+        console.log('projTitle:', projTitle);
+        console.log('claimAmount:', claimAmount);
+        console.log('projAppAmt:', projAppAmt);
+        console.log('projAmtUti:', projAmtUti);
+        console.log('applicantEmail:', applicantEmail);
+    
+        fetch(`/approve/${projId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            
+            body: JSON.stringify({
+                projTitle: projTitle,
+                claimAmount: claimAmount,
+                projAppAmt: projAppAmt,
+                projAmtUti: projAmtUti,
+                applicantEmail: applicantEmail
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            location.reload(); // Refresh the page to update the table
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+    function rejectClaim(projId, reason) {
+        fetch(`/reject/${projId}`, { // Correct route path
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ reason })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            location.reload(); // Refresh the page to update the table
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
 });
+
 
 //End of approve/reject function button

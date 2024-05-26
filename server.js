@@ -1,5 +1,7 @@
 const { Client } = require('pg');
 const { Pool } = require('pg'); 
+
+const nodemailer = require('nodemailer');
 const express = require('express');
 const bodyParser = require('body-parser'); // submit claim - Import bodyParser module
 const app = express();
@@ -156,82 +158,66 @@ app.get('/', (req, res) => {
 
 // code to retrieve data from sql server to fill up form
 //end of submit claim page
-
-
+// Create a transporter using Gmail SMTP
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'grantopia2024@gmail.com', // Your Gmail email address
+    pass: 'evelyntok' // Your Gmail password or app-specific password
+  }
+});
+//function approveClaim(projId, projTitle, claimAmount, projAppAmt, projAmtUti, applicantEmail) 
 //start of approve/reject functions
-// Route to approve claim
-app.put('/approve/:projId', async (req, res) => {
-  const { projId } = req.params;
+// Approve route
+app.post('/approve/:id', async (req, res) => {
+  const { id } = req.params;
+  const { projTitle, claimAmount, projAppAmt, projAmtUti, applicantEmail } = req.body;
+ // Log the request body to see its structure and contents
+ console.log('Request Body:', req.body);
+  console.log('Raw Claim Amount:', claimAmount);
+  console.log('Raw Project Approved Amount:', projAppAmt);
+  console.log('Raw Project Amount Utilised:', projAmtUti);
 
-  try {
-      // Update claim status and amount in the database
-      await client.query('UPDATE project SET claim_status = $1, claim_amount = $2 WHERE proj_id = $3', ['Approved', 0, projId]);
+  if (claimAmount <= (projAppAmt - projAmtUti)) {
+      console.log('Claim amount is within available grant amount.');
 
-      // Fetch project details
-      const result = await client.query('SELECT * FROM project WHERE proj_id = $1', [projId]);
-      const project = result.rows[0];
-
-      // Send approval email
-      sendEmail(project.applicant_email, `Project ${project.proj_title} is approved`, `Your project ${project.proj_title} has been approved on ${new Date().toLocaleString()}`);
+      try {
+        console.log('Updating database approve...');
+        await client.query('UPDATE project SET proj_amt_uti = proj_amt_uti + $1, claim_amount = 0, claim_status = $2 WHERE proj_id = $3', [claimAmount, 'Approved', id]);
+        console.log('Database updated approve.');
+         // Send success response to client
+      res.json({ success: true, message: 'Claim approved successfully' });  
+        // Send email with gmail
       
-      res.json({ message: `Project ${project.proj_title} is approved` });
-  } catch (error) {
-      console.error('Error approving claim:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    } catch (error) {
+      console.error('Error updating data in database:', error);
+      res.status(500).json({ success: false, message: 'Internal Server Error' }); // Send error message
+    }
+  } else {
+    console.log('Claim amount exceeds available grant amount.');
+    res.json({ success: false, message: 'Project exceeded available grant amount. Please check again.' }); // Send error message
   }
 });
 
-// Route to reject claim
-app.put('/reject/:projId', async (req, res) => {
-  const { projId } = req.params;
-  const { reason } = req.body;
+
+// Reject route
+app.post('/reject/:id', async (req, res) => {
+  const { id } = req.params;
+  const { projTitle, reason, applicantEmail } = req.body;
 
   try {
-      // Update claim status in the database
-      await client.query('UPDATE project SET claim_status = $1 WHERE proj_id = $2', ['Rejected', projId]);
-
-      // Fetch project details
-      const result = await client.query('SELECT * FROM project WHERE proj_id = $1', [projId]);
-      const project = result.rows[0];
-
-      // Send rejection email
-      sendEmail(project.applicant_email, `Project ${project.proj_title} is rejected`, `Your project ${project.proj_title} has been rejected on ${new Date().toLocaleString()} due to: ${reason}`);
+    console.log('Updating database reject...');
+      await client.query('UPDATE project SET claim_status = $1 WHERE proj_id = $2', ['Rejected', id]);
       
-      res.json({ message: `Project ${project.proj_title} is rejected` });
+      
+
+      res.json({ success: true });
   } catch (error) {
-      console.error('Error rejecting claim:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error updating data in database:', error);
+      res.status(500).json({ success: false });
   }
 });
 
-function sendEmail(to, subject, text) {
-  const nodemailer = require('nodemailer');
-
-  // Create a transporter using Gmail SMTP
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'grantopia2024@gmail.com', // Your Gmail email address
-      pass: 'evel' // Your Gmail password or app-specific password
-    }
-  });
-
-  // Define email options
-  const mailOptions = {
-    from: 'Grantopia <your_email@gmail.com>', // Sender name and email address
-    to: to, // Recipient email address
-    subject: subject, // Email subject
-    html: text // Email content (HTML format)
-  };
-
-  // Send email
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      console.error('Error sending email:', error);
-    } else {
-      console.log('Email sent:', info.response);
-    }
-  });
-}
 
 //end of approve/reject functions
+// mailgun api code

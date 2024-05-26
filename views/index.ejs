@@ -74,38 +74,33 @@
                                 <th>Claim Amount</th>
                                 <th>Submission Date</th>
                                 <th>Claim Status</th>
+                                <th>Applicant Email</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
-                        
                         <tbody id="data-table">
-                            <!-- Table rows will be dynamically populated here -->
                             <!-- Inside the table's tbody -->
                             <% projects.forEach(project => { %>
-                                <tr>
-                                    <td><%= project.proj_id %></td>
-                                    <td><%= project.proj_title %></td>
-                                    <td><%= project.proj_app_amt %></td>
-                                    <td><%= project.proj_amt_uti %></td>
-                                    <td><%= project.proj_start_date %></td>
-                                    <td><%= project.project_end_date %></td>
-                                    <td><%= project.proj_agency %></td>
-                                    <td><%= project.claim_amount %></td>
-                                    <td><%= project.claim_date %></td>
-                                    <td><%= project.claim_status %></td>
+                                <tr data-proj-id="<%= project.proj_id %>" data-applicant-email="<%= project.applicant_email %>">
+                                    <td class="proj-id"><%= project.proj_id %></td>
+                                    <td class="proj-title"><%= project.proj_title %></td>
+                                    <td class="proj-app-amt"><%= project.proj_app_amt %></td>
+                                    <td class="proj-amt-uti"><%= project.proj_amt_uti %></td>
+                                    <td class="proj-start-date"><%= project.proj_start_date %></td>
+                                    <td class="project-end-date"><%= project.project_end_date %></td>
+                                    <td class="proj-agency"><%= project.proj_agency %></td>
+                                    <td class="claim-amount"><%= project.claim_amount %></td>
+                                    <td class="claim-date"><%= project.claim_date %></td>
+                                    <td class="claim-status"><%= project.claim_status %></td>
+                                    <td class="applicant-email"><%= project.applicant_email %></td>
                                     <td>
-                                        <!-- Approve Button -->
                                         <button class="approve-btn" data-proj-id="<%= project.proj_id %>">Approve</button>
-                                    </td>
-                                    <td>
-                                        <!-- Reject Button -->
                                         <button class="reject-btn" data-proj-id="<%= project.proj_id %>">Reject</button>
                                     </td>
                                 </tr>
                             <% }) %>
-
-                            
                         </tbody>
-                       </table> 
+                    </table>
                       
                         
                 </div>
