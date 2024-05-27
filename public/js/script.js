@@ -237,3 +237,81 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 //End of approve/reject function button
+
+
+//new claim function
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#submitForm');
+
+    // Attach event listener
+    form.addEventListener('submit', function(event) {
+        // Validate the form before proceeding with submission
+        if (!validateForm()) {
+            event.preventDefault(); // Prevent the default form submission if validation fails
+        }
+    });
+});
+
+function validateForm() {
+    const projAppAmt = parseFloat(document.getElementById('proj_app_amt').value);
+    const projAmtUti = parseFloat(document.getElementById('proj_amt_uti').value);
+    const projStartDate = new Date(document.getElementById('proj_start_date').value);
+    const projEndDate = new Date(document.getElementById('project_end_date').value);
+
+    console.log('projAppAmt:', projAppAmt);
+    console.log('projAmtUti:', projAmtUti);
+    console.log('projStartDate:', projStartDate);
+    console.log('projEndDate:', projEndDate);
+
+    if (projAmtUti > projAppAmt) {
+        alert('Amount Utilised cannot be greater than Project Approved Amount');
+        return false; // Return false to indicate validation failure
+    }
+
+    if (projEndDate < projStartDate) {
+        alert('Project End Date cannot be earlier than Project Start Date');
+        return false; // Return false to indicate validation failure
+    }
+
+    // Validation passed
+    return true;
+}
+
+
+function newClaim() {
+    // Collect form data
+    const formData = new FormData(document.getElementById('submitForm'));
+    const requestData = {};
+    formData.forEach((value, key) => {
+        requestData[key] = value;
+    });
+
+    // Make a POST request to submit the form data
+    fetch('/newclaim', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Handle success response
+        console.log(data);
+        location.reload();
+        // Optionally, you can redirect the user to another page or show a success message
+    })
+    .catch(error => {
+        // Handle error
+        console.error('There was a problem with the fetch operation:', error);
+        // Optionally, you can display an error message to the user
+    });
+}
+
+
+//end of new claim

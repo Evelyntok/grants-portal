@@ -218,3 +218,53 @@ app.post('/reject/:id', async (req, res) => {
 
 //end of approve/reject functions
 // mailgun api code
+
+
+//submitnewclaim codes
+app.post('/newclaim', (req, res) => {
+  const { proj_title, proj_app_amt, proj_amt_uti, proj_start_date, project_end_date, proj_agency, claim_amount, applicant_name, applicant_email } = req.body;
+
+  // Server-side validation
+  if (proj_amt_uti > proj_app_amt) {
+      console.error('Amount Utilised cannot be greater than Project Approved Amount');
+      return res.status(400).send('Amount Utilised cannot be greater than Project Approved Amount');
+  }
+
+  if (new Date(project_end_date) < new Date(proj_start_date)) {
+      console.error('Project End Date cannot be earlier than Project Start Date');
+      return res.status(400).send('Project End Date cannot be earlier than Project Start Date');
+  }
+
+  // Query to get the largest proj_id
+  client.query('SELECT MAX(proj_id) FROM project')
+      .then(result => {
+          const largestProjId = result.rows[0].max; // Assuming the column name is "max" in the result
+          const newProjId = largestProjId + 1;
+
+          // Default values for claim_status and claim_date
+          const claim_status = 'pending';
+          const claim_date = new Date().toISOString().split('T')[0]; // Today's date
+
+          // Insert data into the database
+          client.query(
+              `INSERT INTO project (proj_id, proj_title, proj_app_amt, proj_amt_uti, proj_start_date, project_end_date, proj_agency, claim_status, claim_amount, claim_date, applicant_name, applicant_email) 
+              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+              [newProjId, proj_title, proj_app_amt, proj_amt_uti, proj_start_date, project_end_date, proj_agency, claim_status, claim_amount, claim_date, applicant_name, applicant_email],
+              (err, result) => {
+                  if (err) {
+                      console.error('Error executing query', err);
+                      res.status(500).send('Error inserting data into database');
+                  } else {
+                      console.log('Data inserted successfully new claim');
+                      res.status(200).send('Data inserted successfully new claim');
+                  }
+              }
+          );
+      })
+      .catch(err => {
+          console.error('Error querying database', err);
+          res.status(500).send('Error querying database');
+      });
+});
+
+//end of submitnewclaim codes

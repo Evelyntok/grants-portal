@@ -28,9 +28,9 @@
         <nav>
             <ul>
                 <li></li>
-                <li><a href="#" onclick="openTab('reimbursement-claim')">Reimbursement Claim</a></li>
-                <li><a href="#" onclick="openTab('mid-year-revision')">Mid-Year Revision</a></li>
-                <li><a href="#" onclick="openTab('request-received')">Request Received</a></li>
+                <li><a href="#" onclick="openTab('verify-claim')">Verify Claim</a></li>
+                <li><a href="#" onclick="openTab('view-project')">View Projects</a></li>
+                <li><a href="#" onclick="openTab('new-project')">New Project</a></li>
                 
             </ul>
         </nav>
@@ -39,13 +39,18 @@
 
     <div class="content">
         <div id="grant-call" class="tab-content">
-            <br><h2>Welcome</h2>
-            <p>Welcome!</p>
+            <div style="position: relative; width: 100%; height: 0; padding-top: 56.2225%;
+            padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+            border-radius: 8px; will-change: transform;">
+            <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+                src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGGbvCcYPM&#x2F;_BXPBncPXiN0_KcHi2tWjg&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+            </iframe>
+            </div>
         </div>
         
-        <div id="reimbursement-claim" class="tab-content" style="display:none;">
+        <div id="verify-claim" class="tab-content" style="display:none;">
  
-                    <h3 style="text-align: left;">Reimbursement claims received</h2>
+                    <h3 style="text-align: left;">Reimbursement claims received</h3>
                 
                     <!-- Table to display project data -->
                     <label for="claimStatus">Select Claim Status:</label>
@@ -96,17 +101,76 @@
                             <% }) %>
                         </tbody>
                     </table> 
-                </div>
+                
         </div>
         
-        <div id="mid-year-revision" class="tab-content" style="display:none;">
-            <h3>Mid-Year Revision</h3>
-            <p>Revise your project budget requested</p>
+        <div id="view-project" class="tab-content" style="display:none;">
+            <h3 style="text-align: left;">View all projects</h3>
+
+            <table class="projecttable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Project Title</th>
+                        <th>Project Approved Amount</th>
+                        <th>Amount Utilised</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Agency</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="data-table">
+                    <!-- Inside the table's tbody -->
+                    <% projects.forEach(project => { %>
+                        <tr data-proj-id="<%= project.proj_id %>" data-applicant-email="<%= project.applicant_email %>">
+                            <td class="proj-id"><%= project.proj_id %></td>
+                            <td class="proj-title"><%= project.proj_title %></td>
+                            <td class="proj-app-amt"><%= project.proj_app_amt %></td>
+                            <td class="proj-amt-uti"><%= project.proj_amt_uti %></td>
+                            <td class="proj-start-date"><%= project.proj_start_date %></td>
+                            <td class="project-end-date"><%= project.project_end_date %></td>
+                            <td class="proj-agency"><%= project.proj_agency %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table> 
+
         </div>
 
-        <div id="request-received" class="tab-content" style="display:none;">
-            <br><h3>Request Received</h3>
-            <p>View requests received.</p>
+        <div id="new-project" class="tab-content" style="display:none;">
+            <h3 style="text-align: center;">New Project</h3>
+            
+            <form id="submitForm">
+                <label for="proj_title">Project Title:</label>
+                <input type="text" id="proj_title" name="proj_title" required><br>
+                <label for="proj_app_amt">Project Approved Amount:</label>
+                <input type="number" id="proj_app_amt" name="proj_app_amt" required><br>
+                
+                <!-- Add other input fields here -->
+                <label for="proj_amt_uti">Amount Utilised:</label>
+                <input type="number" id="proj_amt_uti" name="proj_amt_uti" required><br>
+                <label for="proj_start_date">Project Start Date:</label>
+                <input type="date" id="proj_start_date" name="proj_start_date" required><br>
+                <label for="project_end_date">Project End Date:</label>
+                <input type="date" id="project_end_date" name="project_end_date" required><br>
+                <label for="proj_agency">Agency:</label>
+                <input type="text" id="proj_agency" name="proj_agency" required><br>
+                
+                <input type="hidden" id="claim_amount" name="claim_amount" value="0"><br>
+                <label for="applicant_name">Claim IC Name:</label>
+                <input type="text" id="applicant_name" name="applicant_name" required><br>
+                <label for="applicant_email">Claim IC Email:</label>
+                <input type="email" id="applicant_email" name="applicant_email" required><br>
+        
+                <!-- These fields are hidden and populated by JavaScript -->
+                <input type="hidden" id="proj_id" name="proj_id">
+                <input type="hidden" id="claim_status" name="claim_status" value="Pending">
+                <input type="hidden" id="claim_date" name="claim_date">
+        
+                <button type="submit" onclick="newClaim()">Submit Claim</button>
+            </form>
+    </div>
         </div>
     </div>
 
@@ -118,7 +182,7 @@
             <p>Disclaimer: This website is created for learning purposes only. The information provided here should not be considered professional advice. Please note that we make no guarantees regarding the accuracy, completeness, or reliability of the contents of this website. Any actions you take based on the contents of this website are at your own risk. We are not liable for any losses or damages incurred from the use of this website.</p>
         </div>
     </footer>
-    <<script>
+    <script>
         //Data table functions sort by claim status start
         document.addEventListener('DOMContentLoaded', function() {
             var claimStatusDropdown = document.getElementById('claimStatus');
