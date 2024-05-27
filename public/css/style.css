@@ -69,6 +69,16 @@ nav ul li a:hover {
 }
 
 .tab-content {
+    text-align:center;
+    background-color: #fff;
+    margin-top:120px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    min-height: 800px;  /* Add spacing to extend the content place */
+    flex-grow: 1;
+}
+
+.submittab-content {
     text-align:left;
     padding-left: 430px;
     background-color: #fff;
@@ -132,7 +142,8 @@ footer {
 /* Style the table with class "projecttable" */
 .projecttable {
     border-collapse: collapse;
-    width: 100%;
+    width: 99%;
+    justify-content: center;
     font-family: Arial, sans-serif;
 }
 table {
@@ -194,5 +205,41 @@ td {
 
 /* Hover effect for buttons */
 .navigate-btn:hover {
-  background-color: rgb(113, 2, 2) /* Darker blue color on hover */
+  background-color: rgb(113, 2, 2)
 }
+
+.approve-btn {
+    background-color: rgb(195, 5, 5); 
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding around text */
+    margin: 0 10px; /* Margin between buttons */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Show pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition on hover */
+    padding-inline: 50px;
+
+  }
+  
+  /* Hover effect for buttons */
+  .approve-btn:hover {
+    background-color: rgb(113, 2, 2) 
+  }
+
+  .reject-btn {
+    background-color: rgb(195, 5, 5); 
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding around text */
+    margin: 0 10px; /* Margin between buttons */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Show pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition on hover */
+    padding-inline: 50px;
+
+  }
+  
+  /* Hover effect for buttons */
+  .reject-btn:hover {
+    background-color: rgb(113, 2, 2) 
+  }
