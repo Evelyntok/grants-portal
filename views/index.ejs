@@ -22,7 +22,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <a  href="#"><img class="logo" src= /images/logo.png></img></a>
+            <a  href="/"><img class="logo" src= /images/logo.png></img></a>
         </div>
         <div>
         <nav>
@@ -44,10 +44,8 @@
         </div>
         
         <div id="reimbursement-claim" class="tab-content" style="display:none;">
-           
-                <div class="right-content">
-                    <!-- Right content area with the remaining width available -->
-                    <h3 style="text-align: left; padding-top: 10px;">Reimbursement claims received</h2>
+ 
+                    <h3 style="text-align: left;">Reimbursement claims received</h2>
                 
                     <!-- Table to display project data -->
                     <label for="claimStatus">Select Claim Status:</label>
@@ -57,7 +55,6 @@
                         <option value="approved">Approved</option>
                         <option value="rejected">Rejected</option>
                     </select>
-                    
                     
                     <table class="projecttable">
                         <thead>
@@ -98,20 +95,17 @@
                                 </tr>
                             <% }) %>
                         </tbody>
-                    </table>
-                      
-                        
+                    </table> 
                 </div>
-            </div>
         </div>
         
         <div id="mid-year-revision" class="tab-content" style="display:none;">
-            <br><h2>Mid-Year Revision</h2>
+            <h3>Mid-Year Revision</h3>
             <p>Revise your project budget requested</p>
         </div>
 
         <div id="request-received" class="tab-content" style="display:none;">
-            <br><h2>Request Received</h2>
+            <br><h3>Request Received</h3>
             <p>View requests received.</p>
         </div>
     </div>

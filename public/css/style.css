@@ -209,37 +209,40 @@ td {
 }
 
 .approve-btn {
+        background-color: rgb(195, 5, 5); 
+        width: 100px;
+        text-align: center;
+        color: white; /* White text color */
+        padding: 10px 10px; /* Padding around text */
+        margin: 3px; /* Margin between buttons */
+        border: none; /* No border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Show pointer cursor on hover */
+        transition: background-color 0.3s; /* Smooth transition on hover */
+
+    
+      }
+      
+      /* Hover effect for buttons */
+      .approve-btn:hover {
+        background-color: rgb(113, 2, 2) 
+      }
+.reject-btn {
     background-color: rgb(195, 5, 5); 
+    width: 100px;
+    text-align: center;
     color: white; /* White text color */
-    padding: 10px 20px; /* Padding around text */
-    margin: 0 10px; /* Margin between buttons */
+    padding: 10px 10px; /* Padding around text */
+    margin: 3px; /* Margin between buttons */
     border: none; /* No border */
     border-radius: 5px; /* Rounded corners */
     cursor: pointer; /* Show pointer cursor on hover */
     transition: background-color 0.3s; /* Smooth transition on hover */
-    padding-inline: 50px;
+    
 
   }
   
   /* Hover effect for buttons */
   .approve-btn:hover {
-    background-color: rgb(113, 2, 2) 
-  }
-
-  .reject-btn {
-    background-color: rgb(195, 5, 5); 
-    color: white; /* White text color */
-    padding: 10px 20px; /* Padding around text */
-    margin: 0 10px; /* Margin between buttons */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Show pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition on hover */
-    padding-inline: 50px;
-
-  }
-  
-  /* Hover effect for buttons */
-  .reject-btn:hover {
     background-color: rgb(113, 2, 2) 
   }
