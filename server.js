@@ -39,7 +39,7 @@ client.connect()
   
   
 // Define a route to fetch data and render the EJS template
-app.get('/', async (req, res) => {
+app.get('/index', async (req, res) => {
   try {
     // Fetch data from the PostgreSQL database
     const result = await client.query('SELECT * FROM project');
@@ -62,6 +62,8 @@ app.get('/', async (req, res) => {
     res.status(500).send('Internal Server Error');
 }
 });
+
+
 
 // Function to format date in dd/mm/yyyy format
 function formatDate(dateString) {

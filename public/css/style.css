@@ -69,8 +69,8 @@ nav ul li a:hover {
 }
 
 .tab-content {
-    padding: 0px;
-    text-align: center;
+    text-align:left;
+    padding-left: 430px;
     background-color: #fff;
     margin-top:120px;
     border-radius: 5px;
@@ -78,6 +78,16 @@ nav ul li a:hover {
     min-height: 800px;  /* Add spacing to extend the content place */
     flex-grow: 1;
     background-color: rgba(255, 255, 255, 0.321);
+}
+
+input, select {
+    padding: 8px;
+    border: 1px solid #c04545;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.submitpara {
+    font-weight: bold;
 }
 
 .split-container {

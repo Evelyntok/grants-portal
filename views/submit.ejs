@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Claim</title>
     <link rel="stylesheet" href="/css/style.css">
     
     <!-- Google tag (gtag.js) -->
@@ -98,7 +97,9 @@
     <div class="tab-content">
         <Br>
         <br>
-        <h2>Submit Claim</h2>
+        <h2>Submit Project Claim</h2>
+        <p class="submitpara">Please select the project and input your claim amount below.</p>
+        <br>
         <form action="/submit" method="post">
             <!-- Dropdown list for project titles -->
            
@@ -129,7 +130,7 @@
                 <option value="Pending" selected>Pending</option>
             </select><br>-->
             <input type="text" id="claim_status" name="claim_status" required><br>
-            <button type="submit">Submit Claim</button>
+            <button class="navigate-btn type="submit">Submit Claim</button>
         </form>
     </div>
 
