@@ -156,15 +156,21 @@ td {
 }
 
 /* Login page buttons */
-.login-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 200px; /* Adjust margin as needed */
+.login-image {
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
 }
+.login-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: -80px; /* Adjust margin as needed */
+
+  }
 
 /* Style for each button */
 .navigate-btn {
-  background-color: #007bff; /* Blue background color */
+  background-color: rgb(195, 5, 5); 
   color: white; /* White text color */
   padding: 10px 20px; /* Padding around text */
   margin: 0 10px; /* Margin between buttons */
@@ -172,9 +178,11 @@ td {
   border-radius: 5px; /* Rounded corners */
   cursor: pointer; /* Show pointer cursor on hover */
   transition: background-color 0.3s; /* Smooth transition on hover */
+  padding-inline: 50px;
+  margin: 0px 47px 0px 55px;
 }
 
 /* Hover effect for buttons */
 .navigate-btn:hover {
-  background-color: #0056b3; /* Darker blue color on hover */
+  background-color: rgb(113, 2, 2) /* Darker blue color on hover */
 }
