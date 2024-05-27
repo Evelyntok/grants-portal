@@ -1,9 +1,9 @@
 const { Client } = require('pg');
 const { Pool } = require('pg'); 
-
 const nodemailer = require('nodemailer');
 const express = require('express');
 const bodyParser = require('body-parser'); // submit claim - Import bodyParser module
+const path = require('path');
 const app = express();
 const port = process.env.PORT || 4000;
 require('dotenv').config();
@@ -14,7 +14,10 @@ app.use(express.static('public'));
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 
-
+// Route to render the page
+app.get('/', (req, res) => {
+  res.render('login');
+});
 
 // Create a PostgreSQL client
 const client = new Client({
@@ -75,11 +78,7 @@ function formatCurrency(amount) {
 }
 
 
-
-
 // Submit claim - Use body-parser middleware to parse incoming request bodies
-
-
 
 // Start of submit claim page
 // Add a route for rendering the form page
@@ -150,10 +149,6 @@ app.get('/projects/details', async (req, res) => {
     console.error('Error fetching project details:', error);
     res.status(500).send('Internal Server Error');
   }
-});
-// Route to render the page with dropdown list
-app.get('/', (req, res) => {
-  res.render('index');
 });
 
 // code to retrieve data from sql server to fill up form

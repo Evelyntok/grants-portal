@@ -155,3 +155,26 @@ td {
     color: black; 
 }
 
+/* Login page buttons */
+.login-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 200px; /* Adjust margin as needed */
+}
+
+/* Style for each button */
+.navigate-btn {
+  background-color: #007bff; /* Blue background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Padding around text */
+  margin: 0 10px; /* Margin between buttons */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Show pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+/* Hover effect for buttons */
+.navigate-btn:hover {
+  background-color: #0056b3; /* Darker blue color on hover */
+}
